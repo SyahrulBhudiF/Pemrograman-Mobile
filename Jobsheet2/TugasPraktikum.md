@@ -28,7 +28,7 @@ void main() {
 
 2. Mengapa sangat penting untuk memahami bahasa pemrograman Dart sebelum kita menggunakan framework Flutter ? Jelaskan !
 
-   > Jawaban : Karena flutter dibangun menggunakan bahasa dart, sehingga penguasaan Dart memastikan penulisan kode yang efektif dan pemanfaatan penuh potensi Flutter.
+   > Jawaban : Karena Flutter dibangun menggunakan bahasa dart, sehingga penguasaan Dart memastikan penulisan kode yang efektif dan memudahkan pemahaman terhadap konsep-konsep dasar Flutter seperti widget, async programming, state management.
 
 3. Rangkumlah materi dari codelab ini menjadi poin-poin penting yang dapat Anda gunakan untuk membantu proses pengembangan aplikasi mobile menggunakan framework Flutter
    > Jawaban : <br>
