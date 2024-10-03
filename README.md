@@ -44,10 +44,42 @@
 2. Langkah 2: Floating Action Button (FAB)
    ![img.png](Assets/6.png)
 3. Langkah 3: Scaffold Widget
-   ![img.png](Assets/7.png)
+   ![img.png](Assets/7.png)1
 4. Langkah 4: Dialog Widget
    ![img.png](Assets/8.png)
 5. Langkah 5: Input dan Selection Widget
    ![img.png](Assets/9.png)
 6. Langkah 6: Date and Time Pickers
    ![img.png](Assets/02.png)
+
+# CODELABS FLUTTER
+
+1. Membuat Project Flutter Baru
+   ![img.png](Assets/03.png)
+2. Meluncurkan aplikasi
+   ![img.png](Assets/04.png)
+3. Membuat Tombol
+   ![img.png](Assets/a.png)
+4. First state
+   ![img.png](Assets/07.png)
+5. Card
+   ![img.png](Assets/08.png)
+6. Tema dan gaya
+   ![img.png](Assets/0.9.png)
+7. TextTheme
+   ![img.png](Assets/10.png)
+8. Menempatkan UI di tengah
+   ![img.png](Assets/11.png)
+9. Menambahkan fungsi
+   ![img.png](Assets/12.png)
+10. Challange tambah button
+    ![img.png](Assets/13.png)
+11. Menambahkan kolom samping navigasi
+    ![img.png](Assets/14.png)
+12. Widget stateless versus stateful
+    ![img.png](Assets/15.png)
+    ![img.png](Assets/16.png)
+    ![img.png](Assets/19.png)
+13. Menambahkan halaman baru
+    ![img.png](Assets/20.png)
+
