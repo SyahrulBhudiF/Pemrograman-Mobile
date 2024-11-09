@@ -192,7 +192,7 @@ runApp(
 ```
 
 10. Hasil
-    ![alt text](assets/picture.jpeg)
+    ![alt text](assets/2.jpeg)
 
 ## Praktikum 2
 
