@@ -214,7 +214,7 @@ void dispose() {
    > Jawaban: Variabel dibuat sebagai konstanta agar objek tidak bisa diubah setelah deklarasi, sehingga pada tahap selanjutnya proses menghasilkan duplikasi objek baru.
 
 3. Lakukan capture hasil dari Langkah 9 berupa GIF, kemudian jelaskan apa yang telah Anda buat!
-   <video controls src="assets/Screencast from 2024-11-10 13-55-58.mp4" title="Title"></video>
+   ![![]](assets/1.gif)
 
    > membentuk sebuah listile yang didasarkan pada jumlah task pada plan, pada set state checkbox apa bila terjadi perubahan checkbox maka variabel pada task boolean menjadi true atau false. semua perubahan akan terjadi pada variabel plan, sehinga terjadi perubahan secara terus menerus pada variabel plan
 
@@ -368,7 +368,7 @@ Widget build(BuildContext context) {
 2. Jelaskan maksud dari method di langkah 3 pada praktikum tersebut! Mengapa dilakukan demikian?
    > Jawaban: Method ini menghitung jumlah tugas yang telah selesai (completedCount) dengan memfilter daftar tasks dan menghitung hanya tugas yang memiliki status selesai (complete). Kemudian, method tersebut menghasilkan pesan (completenessMessage) yang menunjukkan berapa banyak tugas yang telah selesai dibandingkan dengan total tugas.
 3. Lakukan capture hasil dari Langkah 9 berupa GIF, kemudian jelaskan apa yang telah Anda buat!
-   <video controls src="assets/Screencast from 2024-11-10 14-09-34.mp4" title="Title"></video>
+   ![alt text](assets/2.gif)
 
 ## Praktikum 3: Membuat State di Multiple Screens
 
@@ -644,4 +644,4 @@ PlanScreen(plan: plan,)));
    > Diagram ini menunjukkan alur navigasi antar halaman dalam aplikasi menggunakan Flutter. Pada diagram sebelah kiri, hierarki widget dimulai dari `MaterialApp` yang mencakup `PlanProvider`, lalu menuju `PlanCreatorScreen` yang berisi kolom dengan `TextField` dan `ListView` dalam widget `Expanded`. Diagram sebelah kanan menggambarkan halaman baru, `PlanScreen`, yang dicapai melalui aksi `Navigator Push`. Dalam hierarki `PlanScreen`, terdapat `Scaffold` yang membungkus `Column` dengan widget `Expanded` berisi `ListView` dan `SafeArea` yang berisi `Text`. Diagram ini mengilustrasikan transisi dari satu layar ke layar lainnya menggunakan navigasi di Flutter serta penataan ulang struktur widget di layar baru.
 
 2. Lakukan capture hasil dari Langkah 14 berupa GIF, kemudian jelaskan apa yang telah Anda buat!
-   <video controls src="assets/Screencast from 2024-11-10 14-36-41.mp4" title="Title"></video>
+   ![alt text](assets/3.gif)
