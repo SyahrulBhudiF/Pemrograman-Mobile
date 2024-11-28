@@ -54,6 +54,11 @@ class _FuturePageState extends State<FuturePage> {
     }
   }
 
+  Future returnError() async {
+    await Future.delayed(const Duration(seconds: 3));
+    throw Exception('Something terrible happened!');
+  }
+
   void returnFG() {
     FutureGroup<int> futureGroup = FutureGroup<int>();
     futureGroup.add(returnOneAsync());
@@ -71,11 +76,10 @@ class _FuturePageState extends State<FuturePage> {
     });
   }
   // final futures = Future.wait<int>([
-    //   returnOneAsync(),
-    //   returnTwoAsync(),
-    //   returnThreeAsync(),
-    // ]);
-
+  //   returnOneAsync(),
+  //   returnTwoAsync(),
+  //   returnThreeAsync(),
+  // ]);
 
   Future<int> returnOneAsync() async {
     await Future.delayed(const Duration(seconds: 3));
@@ -142,7 +146,19 @@ class _FuturePageState extends State<FuturePage> {
                   //   result = 'Error';
                   // });
 
-                  returnFG();
+                  // returnFG();
+
+                  returnError().then((value) {
+                    setState(() {
+                      result = 'success';
+                    });
+                  }).catchError((e) {
+                    setState(() {
+                      result =  e.toString();
+                    });
+                  }).whenComplete(() {
+                    print('done');
+                  });
                 },
                 child: const Text('GO!')),
             const Spacer(),

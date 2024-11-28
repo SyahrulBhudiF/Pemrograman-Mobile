@@ -270,4 +270,34 @@ final futures = Future.wait<int>([
 ```
 
 > Soal 8 perbedaannya
-Perbedaan utamanya adalah **`Future.wait`** langsung mengelola kumpulan `Future` secara bersamaan dan menghasilkan hasilnya ketika semuanya selesai. Sementara itu, **`FutureGroup`** memberikan fleksibilitas untuk menambahkan `Future` secara dinamis sebelum ditutup, cocok untuk skenario di mana jumlah `Future` tidak diketahui sebelumnya.
+> Perbedaan utamanya adalah **`Future.wait`** langsung mengelola kumpulan `Future` secara bersamaan dan menghasilkan hasilnya ketika semuanya selesai. Sementara itu, **`FutureGroup`** memberikan fleksibilitas untuk menambahkan `Future` secara dinamis sebelum ditutup, cocok untuk skenario di mana jumlah `Future` tidak diketahui sebelumnya.
+
+## Praktikum 5: Menangani Respon Error pada Async Code
+
+1. tambahkan kode
+
+```dart
+Future returnError() async {
+    await Future.delayed(const Duration(seconds: 3));
+    throw Exception('Something terrible happened!');
+  }
+```
+
+2. ganti onPressed
+
+````dart
+returnError().then((value) {
+                    setState(() {
+                      result = 'success';
+                    });
+                  }).catchError((e) {
+                    setState(() {
+                      result =  e.toString();
+                    });
+                  }).whenComplete(() {
+                    print('done');
+                  });
+                  ```
+````
+3. RUN
+![alt text](image-5.png)
