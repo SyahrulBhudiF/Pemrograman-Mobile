@@ -299,10 +299,12 @@ returnError().then((value) {
                   });
                   ```
 ````
+
 3. RUN
-![alt text](image-5.png)
+   ![alt text](image-5.png)
 
 4. Tambahkan handleError()
+
 ```dart
 Future handleError() async {
     try {
@@ -318,10 +320,125 @@ Future handleError() async {
 ```
 
 > Soal 10
-Pendekatan dengan `.then` dan `.catchError` memisahkan logika penanganan sukses dan error, sedangkan `.whenComplete` digunakan untuk aksi setelah `Future` selesai. Sebaliknya, pendekatan `try-catch` menyatukan logika penanganan error dengan blok `try` dan menggunakan `finally` untuk aksi pasca-eksekusi.
+> Pendekatan dengan `.then` dan `.catchError` memisahkan logika penanganan sukses dan error, sedangkan `.whenComplete` digunakan untuk aksi setelah `Future` selesai. Sebaliknya, pendekatan `try-catch` menyatukan logika penanganan error dengan blok `try` dan menggunakan `finally` untuk aksi pasca-eksekusi.
 
 ## Praktikum 6: Menggunakan Future dengan StatefulWidget
+
 1. install geolocator
+
 ```dart
 flutter pub add geolocator
 ```
+
+2. tambahkn
+
+```dart
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+```
+
+3. kode geolocation.dart
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+
+class LocationScreen extends StatefulWidget {
+  const LocationScreen({super.key});
+
+  @override
+  State<LocationScreen> createState() => _LocationScreenState();
+}
+
+class _LocationScreenState extends State<LocationScreen> {
+  String myPosition = '';
+  Future<Position>? position;
+
+  @override
+  void initState() {
+    super.initState();
+    getPosition().then((Position myPos) {
+      myPosition =
+          'Latitude: ${myPos.latitude.toString()} - Longitude: ${myPos.longitude.toString()}';
+      setState(() {
+        myPosition = myPosition;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Current Location Syahrul'),
+      ),
+      body: Center(
+        child: Text(myPosition),
+      ),
+    );
+  }
+
+  Future<Position> getPosition() async {
+    await Geolocator.requestPermission();
+    await Geolocator.isLocationServiceEnabled();
+    Position? position = await Geolocator.getCurrentPosition();
+    return position;
+  }
+}
+```
+
+> Soal 11 tambahkan nama di totle
+
+7. RUN
+![alt text](image-7.png)
+
+> soal 12:
+Jika Anda tidak melihat animasi loading tampil, kemungkinan itu berjalan sangat cepat. Tambahkan delay pada method getPosition() dengan kode await Future.delayed(const Duration(seconds: 3));
+alt text
+Apakah Anda mendapatkan koordinat GPS ketika run di browser? Mengapa demikian? Jawab:
+Saat menjalankan aplikasi Flutter di browser, Anda tidak akan mendapatkan koordinat GPS karena browser tidak mendukung akses langsung ke hardware GPS perangkat. Geolocator, seperti banyak plugin lainnya, bergantung pada API yang menyediakan akses ke sensor perangkat (seperti GPS pada perangkat mobile atau tablet). Namun, browser tidak memberikan akses langsung ke informasi lokasi perangkat fisik melalui API yang sama yang digunakan di perangkat Android atau iOS.
+
+## Praktikum 7: Manajemen Future dengan FutureBuilder
+1. Modifikasi
+```dart
+  Future<Position> getPosition() async {
+    await Geolocator.requestPermission();
+    await Geolocator.isLocationServiceEnabled();
+    await Future.delayed(const Duration(seconds: 3));
+    Position? position = await Geolocator.getCurrentPosition();
+    return position;
+  }
+```
+
+2.  edit build
+```dart
+body: Center(
+        child: FutureBuilder(
+            future: position,
+            builder: (BuildContext context, AsyncSnapshot<Position> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Text('Something terrible happened!');
+                }
+                return Text(snapshot.data.toString());
+              } else {
+                return const Text('');
+              }
+            }),
+      ),
+```
+
+> Soal 13: Apakah ada perbedaan UI dengan praktikum sebelumnya? Mengapa demikian?
+Jawab: Tidak ada tetapi disini menggunakan FutureBuilder. FutureBuilder adalah widget yang dirancang untuk menangani operasi asinkron dan menampilkan data yang diperoleh secara dinamis. Dalam hal ini, saat aplikasi menunggu lokasi perangkat, akan muncul indikator pemuatan (loading) berupa CircularProgressIndicator.
+
+3. handling err
+```dart
+ if (snapshot.hasError) {
+                  return Text('Something terrible happened!');
+                }
+```
+
+>Soal 14: Apakah ada perbedaan UI dengan langkah sebelumnya? Mengapa demikian?
+Jawab: Untuk UI nya tidak berubah tetapi disini membuat kode baru untuk penanganan error. Pada kode yang baru, terdapat penanganan kesalahan (error handling) menggunakan snapshot.hasError di dalam FutureBuilder. Jika terjadi kesalahan saat mengambil data lokasi, maka aplikasi akan menampilkan pesan error "Something terrible happened!".
