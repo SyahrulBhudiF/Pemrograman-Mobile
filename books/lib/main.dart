@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -35,7 +36,23 @@ class _FuturePageState extends State<FuturePage> {
   String result = '';
   late Completer completer;
 
-  
+  Future getNumber() {
+    completer = Completer<int>();
+    calculate();
+    return completer.future;
+  }
+
+  Future calculate() async {
+    // await Future.delayed(const Duration(seconds: 5));
+    // completer.complete(42);
+
+    try {
+      await new Future.delayed(const Duration(seconds: 5));
+      completer.complete(42);
+    } catch (_) {
+      completer.completeError({});
+    }
+  }
 
   Future<int> returnOneAsync() async {
     await Future.delayed(const Duration(seconds: 3));
@@ -93,7 +110,14 @@ class _FuturePageState extends State<FuturePage> {
                   //   result = 'Error';
                   //   setState(() {});
                   // });
-                  count();
+                  // count();
+                  getNumber().then((value) {
+                    setState(() {
+                      result = value.toString();
+                    });
+                  }).catchError((e){
+                    result = 'Error';
+                  });
                 },
                 child: const Text('GO!')),
             const Spacer(),

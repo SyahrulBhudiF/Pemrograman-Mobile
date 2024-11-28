@@ -158,3 +158,64 @@ onPressed:(){
    ![alt text](image-1.png)
 
 ## Praktikum 3: Menggunakan Completer di Future
+1. Tambahkan kode
+```dart
+ late Completer completer;
+
+  Future getNumber() {
+    completer = Completer<int>();
+    calculate();
+    return completer.future;
+  }
+
+  Future calculate() async {
+    await Future.delayed(const Duration(seconds: 5));
+    completer.complete(42);
+  }
+```
+2. Ganti Onpressed
+```dart
+getNumber().then((value) {
+                    setState(() {
+                      result = value.toString();
+                    });
+                  });
+```
+
+3. RUN
+![alt text](image-2.png)
+
+> Soal 5 Jelaskan maksud kode langkah 2 tersebut!
+Kode tersebut menggunakan **`Completer`** untuk mengontrol penyelesaian sebuah `Future` secara manual. Fungsi `getNumber` mengembalikan sebuah `Future`, yang akan diselesaikan oleh fungsi `calculate` setelah menunda selama 5 detik dengan nilai 42.
+
+4.  Ganti kode
+```dart
+Future calculate() async {
+    // await Future.delayed(const Duration(seconds: 5));
+    // completer.complete(42);
+
+    try {
+      await new Future.delayed(const Duration(seconds: 5));
+      completer.complete(42);
+    } catch (_) {
+      completer.completeError({});
+    }
+  }
+```
+
+5. Pindah onpressed
+```dart
+getNumber().then((value) {
+                    setState(() {
+                      result = value.toString();
+                    });
+                  }).catchError((e){
+                    result = 'Error';
+                  });
+                },
+```
+
+> Soal 6 perbedaan
+Perbedaan utamanya adalah versi pertama tidak memiliki penanganan error, sehingga jika terjadi kegagalan, `Completer` tidak menyelesaikan `Future`. Versi kedua menggunakan `try-catch` untuk menangkap error, sehingga `Completer` dapat menyelesaikan `Future` dengan error menggunakan `completeError`.
+- Hasil
+![alt text](image-3.png)
