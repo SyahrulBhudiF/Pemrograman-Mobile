@@ -33,7 +33,20 @@ class _LocationScreenState extends State<LocationScreen> {
         title: const Text('Current Location Syahrul'),
       ),
       body: Center(
-        child: myWidget,
+        child: FutureBuilder(
+            future: position,
+            builder: (BuildContext context, AsyncSnapshot<Position> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Text('Something terrible happened!');
+                }
+                return Text(snapshot.data.toString());
+              } else {
+                return const Text('');
+              }
+            }),
       ),
     );
   }
@@ -41,6 +54,7 @@ class _LocationScreenState extends State<LocationScreen> {
   Future<Position> getPosition() async {
     await Geolocator.requestPermission();
     await Geolocator.isLocationServiceEnabled();
+    await Future.delayed(const Duration(seconds: 3));
     Position? position = await Geolocator.getCurrentPosition();
     return position;
   }
