@@ -109,4 +109,52 @@ ElevatedButton(
 > Substring digunakan untuk mengambil 450 kata pertama, Catch Error digunakan untuk menghandle jika terjadi error saat request
 
 - Hasil
-![alt text](image.png)
+  ![alt text](image.png)
+
+## Praktikum 2: Menggunakan await/async untuk menghindari callbacks
+
+1. Tambahkan kode
+
+```dart
+ Future<int> returnOneAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 1;
+  }
+
+  Future<int> returnTwoAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 2;
+  }
+
+  Future<int> returnThreeAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 3;
+  }
+```
+
+2. Tambahkan method count()
+
+```dart
+Future count() async {
+    int total = 0;
+    total = await returnOneAsync();
+    total += await returnTwoAsync();
+    total += await returnThreeAsync();
+    setState(() {
+      result = total.toString();
+    });
+  }
+```
+
+3.Panggil count()
+
+```dart
+onPressed:(){
+  count();
+}
+```
+
+4. RUN
+   ![alt text](image-1.png)
+
+## Praktikum 3: Menggunakan Completer di Future

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -32,6 +33,34 @@ class FuturePage extends StatefulWidget {
 
 class _FuturePageState extends State<FuturePage> {
   String result = '';
+  late Completer completer;
+
+  
+
+  Future<int> returnOneAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 1;
+  }
+
+  Future<int> returnTwoAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 2;
+  }
+
+  Future<int> returnThreeAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 3;
+  }
+
+  Future count() async {
+    int total = 0;
+    total = await returnOneAsync();
+    total += await returnTwoAsync();
+    total += await returnThreeAsync();
+    setState(() {
+      result = total.toString();
+    });
+  }
 
   Future<Response> getData() async {
     const authority = 'www.googleapis.com';
@@ -52,16 +81,19 @@ class _FuturePageState extends State<FuturePage> {
             const Spacer(),
             ElevatedButton(
                 onPressed: () {
-                  setState(() {});
-                  getData().then((value) {
-                    setState(() {
-                      result = value.body.toString().substring(0, 450);
-                      setState(() {});
-                    });
-                  }).catchError((_) {
-                    result = 'Error';
-                    setState(() {});
-                  });
+                  // setState(() {});
+                  // getData().then((value) {
+                  //   setState(() {
+                  //     // Capture the first 450 characters of the response body
+                  //     result = value.body.toString().substring(0, 450);
+                  //     setState(() {});
+                  //   });
+                  // }).catchError((_) {
+                  //   // If an error occurs, set result to 'Error'
+                  //   result = 'Error';
+                  //   setState(() {});
+                  // });
+                  count();
                 },
                 child: const Text('GO!')),
             const Spacer(),
