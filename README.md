@@ -158,7 +158,9 @@ onPressed:(){
    ![alt text](image-1.png)
 
 ## Praktikum 3: Menggunakan Completer di Future
+
 1. Tambahkan kode
+
 ```dart
  late Completer completer;
 
@@ -173,7 +175,9 @@ onPressed:(){
     completer.complete(42);
   }
 ```
+
 2. Ganti Onpressed
+
 ```dart
 getNumber().then((value) {
                     setState(() {
@@ -183,12 +187,13 @@ getNumber().then((value) {
 ```
 
 3. RUN
-![alt text](image-2.png)
+   ![alt text](image-2.png)
 
 > Soal 5 Jelaskan maksud kode langkah 2 tersebut!
-Kode tersebut menggunakan **`Completer`** untuk mengontrol penyelesaian sebuah `Future` secara manual. Fungsi `getNumber` mengembalikan sebuah `Future`, yang akan diselesaikan oleh fungsi `calculate` setelah menunda selama 5 detik dengan nilai 42.
+> Kode tersebut menggunakan **`Completer`** untuk mengontrol penyelesaian sebuah `Future` secara manual. Fungsi `getNumber` mengembalikan sebuah `Future`, yang akan diselesaikan oleh fungsi `calculate` setelah menunda selama 5 detik dengan nilai 42.
 
 4.  Ganti kode
+
 ```dart
 Future calculate() async {
     // await Future.delayed(const Duration(seconds: 5));
@@ -204,6 +209,7 @@ Future calculate() async {
 ```
 
 5. Pindah onpressed
+
 ```dart
 getNumber().then((value) {
                     setState(() {
@@ -216,6 +222,52 @@ getNumber().then((value) {
 ```
 
 > Soal 6 perbedaan
-Perbedaan utamanya adalah versi pertama tidak memiliki penanganan error, sehingga jika terjadi kegagalan, `Completer` tidak menyelesaikan `Future`. Versi kedua menggunakan `try-catch` untuk menangkap error, sehingga `Completer` dapat menyelesaikan `Future` dengan error menggunakan `completeError`.
+> Perbedaan utamanya adalah versi pertama tidak memiliki penanganan error, sehingga jika terjadi kegagalan, `Completer` tidak menyelesaikan `Future`. Versi kedua menggunakan `try-catch` untuk menangkap error, sehingga `Completer` dapat menyelesaikan `Future` dengan error menggunakan `completeError`.
+
 - Hasil
-![alt text](image-3.png)
+  ![alt text](image-3.png)
+
+## Praktikum 4: Memanggil Future secara paralel
+
+1. gunakan group
+
+```dart
+  void returnFG() {
+    FutureGroup<int> futureGroup = FutureGroup<int>();
+    futureGroup.add(returnOneAsync());
+    futureGroup.add(returnTwoAsync());
+    futureGroup.add(returnThreeAsync());
+    futureGroup.close();
+    futureGroup.future.then((List<int> value) {
+      int total = 0;
+      for (var element in value) {
+        total += element;
+      }
+      setState(() {
+        result = total.toString();
+      });
+    });
+  }
+```
+
+2. edit onPressed()
+
+```dart
+returnFG();
+```
+
+- Hasil
+  ![alt text](image-4.png)
+
+3. Ganti variabel futureGroup
+
+```dart
+final futures = Future.wait<int>([
+  returnOneAsync(),
+  returnTwoAsync(),
+  returnThreeAsync(),
+]);
+```
+
+> Soal 8 perbedaannya
+Perbedaan utamanya adalah **`Future.wait`** langsung mengelola kumpulan `Future` secara bersamaan dan menghasilkan hasilnya ketika semuanya selesai. Sementara itu, **`FutureGroup`** memberikan fleksibilitas untuk menambahkan `Future` secara dinamis sebelum ditutup, cocok untuk skenario di mana jumlah `Future` tidak diketahui sebelumnya.
