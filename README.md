@@ -390,16 +390,18 @@ class _LocationScreenState extends State<LocationScreen> {
 > Soal 11 tambahkan nama di totle
 
 7. RUN
-![alt text](image-7.png)
+   ![alt text](image-7.png)
 
 > soal 12:
-Jika Anda tidak melihat animasi loading tampil, kemungkinan itu berjalan sangat cepat. Tambahkan delay pada method getPosition() dengan kode await Future.delayed(const Duration(seconds: 3));
-alt text
-Apakah Anda mendapatkan koordinat GPS ketika run di browser? Mengapa demikian? Jawab:
-Saat menjalankan aplikasi Flutter di browser, Anda tidak akan mendapatkan koordinat GPS karena browser tidak mendukung akses langsung ke hardware GPS perangkat. Geolocator, seperti banyak plugin lainnya, bergantung pada API yang menyediakan akses ke sensor perangkat (seperti GPS pada perangkat mobile atau tablet). Namun, browser tidak memberikan akses langsung ke informasi lokasi perangkat fisik melalui API yang sama yang digunakan di perangkat Android atau iOS.
+> Jika Anda tidak melihat animasi loading tampil, kemungkinan itu berjalan sangat cepat. Tambahkan delay pada method getPosition() dengan kode await Future.delayed(const Duration(seconds: 3));
+> alt text
+> Apakah Anda mendapatkan koordinat GPS ketika run di browser? Mengapa demikian? Jawab:
+> Saat menjalankan aplikasi Flutter di browser, Anda tidak akan mendapatkan koordinat GPS karena browser tidak mendukung akses langsung ke hardware GPS perangkat. Geolocator, seperti banyak plugin lainnya, bergantung pada API yang menyediakan akses ke sensor perangkat (seperti GPS pada perangkat mobile atau tablet). Namun, browser tidak memberikan akses langsung ke informasi lokasi perangkat fisik melalui API yang sama yang digunakan di perangkat Android atau iOS.
 
 ## Praktikum 7: Manajemen Future dengan FutureBuilder
+
 1. Modifikasi
+
 ```dart
   Future<Position> getPosition() async {
     await Geolocator.requestPermission();
@@ -411,6 +413,7 @@ Saat menjalankan aplikasi Flutter di browser, Anda tidak akan mendapatkan koordi
 ```
 
 2.  edit build
+
 ```dart
 body: Center(
         child: FutureBuilder(
@@ -431,14 +434,113 @@ body: Center(
 ```
 
 > Soal 13: Apakah ada perbedaan UI dengan praktikum sebelumnya? Mengapa demikian?
-Jawab: Tidak ada tetapi disini menggunakan FutureBuilder. FutureBuilder adalah widget yang dirancang untuk menangani operasi asinkron dan menampilkan data yang diperoleh secara dinamis. Dalam hal ini, saat aplikasi menunggu lokasi perangkat, akan muncul indikator pemuatan (loading) berupa CircularProgressIndicator.
+> Jawab: Tidak ada tetapi disini menggunakan FutureBuilder. FutureBuilder adalah widget yang dirancang untuk menangani operasi asinkron dan menampilkan data yang diperoleh secara dinamis. Dalam hal ini, saat aplikasi menunggu lokasi perangkat, akan muncul indikator pemuatan (loading) berupa CircularProgressIndicator.
 
 3. handling err
+
 ```dart
  if (snapshot.hasError) {
                   return Text('Something terrible happened!');
                 }
 ```
 
->Soal 14: Apakah ada perbedaan UI dengan langkah sebelumnya? Mengapa demikian?
-Jawab: Untuk UI nya tidak berubah tetapi disini membuat kode baru untuk penanganan error. Pada kode yang baru, terdapat penanganan kesalahan (error handling) menggunakan snapshot.hasError di dalam FutureBuilder. Jika terjadi kesalahan saat mengambil data lokasi, maka aplikasi akan menampilkan pesan error "Something terrible happened!".
+> Soal 14: Apakah ada perbedaan UI dengan langkah sebelumnya? Mengapa demikian?
+> Jawab: Untuk UI nya tidak berubah tetapi disini membuat kode baru untuk penanganan error. Pada kode yang baru, terdapat penanganan kesalahan (error handling) menggunakan snapshot.hasError di dalam FutureBuilder. Jika terjadi kesalahan saat mengambil data lokasi, maka aplikasi akan menampilkan pesan error "Something terrible happened!".
+
+## Praktikum 8: Navigation route dengan Future Function
+
+1. Buat file baru navigation_first.dart
+
+```dart
+import 'package:books/navigation_second.dart';
+import 'package:flutter/material.dart';
+
+class NavigationFirst extends StatefulWidget {
+  const NavigationFirst({super.key});
+
+  @override
+  State<NavigationFirst> createState() => _NavigationFirstState();
+}
+
+class _NavigationFirstState extends State<NavigationFirst> {
+  Color color = Colors.green.shade500;
+
+  Future _navigateAndGetColor(BuildContext context) async {
+    color = await Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const NavigationSecond()),
+        ) ??
+        Colors.green;
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: color,
+      appBar: AppBar(
+        title: const Text('Navigation First Screen Syahrul'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          child: const Text('Change Color'),
+          onPressed: () {
+            _navigateAndGetColor(context);
+          },
+        ),
+      ),
+    );
+  }
+}
+```
+
+2.  Buat file baru navigation_second.dart
+
+```dart
+import 'package:flutter/material.dart';
+
+class NavigationSecond extends StatefulWidget {
+  const NavigationSecond({super.key});
+
+  @override
+  State<NavigationSecond> createState() => _NavigationSecondState();
+}
+
+class _NavigationSecondState extends State<NavigationSecond> {
+  @override
+  Widget build(BuildContext context) {
+    Color color;
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Navigation Second Screen Syahrul'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+                child: const Text('Amber'),
+                onPressed: () {
+                  color = Colors.amber.shade200;
+                  Navigator.pop(context, color);
+                }),
+            ElevatedButton(
+                child: const Text('Purple'),
+                onPressed: () {
+                  color = Colors.purple.shade300;
+                  Navigator.pop(context, color);
+                }),
+            ElevatedButton(
+                child: const Text('Yellow'),
+                onPressed: () {
+                  color = Colors.blue.shade200;
+                  Navigator.pop(context, color);
+                }),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+![alt text](image-8.png)
