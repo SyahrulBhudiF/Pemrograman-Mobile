@@ -543,4 +543,82 @@ class _NavigationSecondState extends State<NavigationSecond> {
   }
 }
 ```
+
 ![alt text](image-8.png)
+
+## Praktikum 9: Memanfaatkan async/await dengan Widget Dialog
+
+1. Buat Dialog nav
+
+```dart
+import 'package:flutter/material.dart';
+
+class NavigationDialogScreen extends StatefulWidget {
+  const NavigationDialogScreen({super.key});
+
+  @override
+  State<NavigationDialogScreen> createState() => _NavigationDialogScreenState();
+}
+
+class _NavigationDialogScreenState extends State<NavigationDialogScreen> {
+  Color color = Colors.green.shade400;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: color,
+      appBar: AppBar(
+        title: const Text('Navigation Dialog Screen Syahrul'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          child: const Text('Change Color'),
+          onPressed: () {
+            _showColorDialog(context);
+          },
+        ),
+      ),
+    );
+  }
+
+  _showColorDialog(BuildContext context) async {
+    await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: const Text('Very important question'),
+          content: const Text('Please choose a color'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Amber'),
+              onPressed: () {
+                color = Colors.amber.shade200;
+                Navigator.pop(context, color);
+              },
+            ),
+            TextButton(
+              child: const Text('Purple'),
+              onPressed: () {
+                color = Colors.purple.shade300;
+                Navigator.pop(context, color);
+              },
+            ),
+            TextButton(
+                child: const Text('Blue'),
+                onPressed: () {
+                  color = Colors.green.shade200;
+                  Navigator.pop(context, color);
+                }),
+          ],
+        );
+      },
+    );
+    setState(() {});
+  }
+}
+```
+
+![alt text](image-9.png)
+
+> Soal 17
+> Jawab: Ketika mengklik setiap tombol ("Amber", "Purple", atau "Blue") pada dialog di NavigationDialogScreen, masing-masing tombol akan mengubah nilai variabel color menjadi warna tertentu (misalnya Colors.amber.shade200 untuk tombol "Amber"). Setelah itu, dialog akan ditutup menggunakan Navigator.pop(context, color), yang mengirimkan nilai warna yang dipilih kembali ke NavigationDialogScreen. Setelah dialog ditutup, setState() dipanggil untuk memperbarui tampilan dan mengganti latar belakang layar menjadi warna yang dipilih. Hal ini terjadi karena setState() memberitahukan Flutter bahwa ada perubahan dalam status yang perlu diperbarui di UI. Jadi, ketika tombol dipilih, warna latar belakang aplikasi akan berubah sesuai dengan pilihan warna yang diinginkan oleh pengguna.
