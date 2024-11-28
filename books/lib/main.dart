@@ -59,6 +59,18 @@ class _FuturePageState extends State<FuturePage> {
     throw Exception('Something terrible happened!');
   }
 
+  Future handleError() async {
+    try {
+      await returnError();
+    } catch (error) {
+      setState(() {
+        result = error.toString();
+      });
+    } finally {
+      print('Complete');
+    }
+  }
+
   void returnFG() {
     FutureGroup<int> futureGroup = FutureGroup<int>();
     futureGroup.add(returnOneAsync());
@@ -148,17 +160,18 @@ class _FuturePageState extends State<FuturePage> {
 
                   // returnFG();
 
-                  returnError().then((value) {
-                    setState(() {
-                      result = 'success';
-                    });
-                  }).catchError((e) {
-                    setState(() {
-                      result =  e.toString();
-                    });
-                  }).whenComplete(() {
-                    print('done');
-                  });
+                  // returnError().then((value) {
+                  //   setState(() {
+                  //     result = 'success';
+                  //   });
+                  // }).catchError((e) {
+                  //   setState(() {
+                  //     result =  e.toString();
+                  //   });
+                  // }).whenComplete(() {
+                  //   print('done');
+                  // });
+                  handleError();
                 },
                 child: const Text('GO!')),
             const Spacer(),

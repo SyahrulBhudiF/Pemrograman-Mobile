@@ -301,3 +301,27 @@ returnError().then((value) {
 ````
 3. RUN
 ![alt text](image-5.png)
+
+4. Tambahkan handleError()
+```dart
+Future handleError() async {
+    try {
+      await returnError();
+    } catch (error) {
+      setState(() {
+        result = error.toString();
+      });
+    } finally {
+      print('Complete');
+    }
+  }
+```
+
+> Soal 10
+Pendekatan dengan `.then` dan `.catchError` memisahkan logika penanganan sukses dan error, sedangkan `.whenComplete` digunakan untuk aksi setelah `Future` selesai. Sebaliknya, pendekatan `try-catch` menyatukan logika penanganan error dengan blok `try` dan menggunakan `finally` untuk aksi pasca-eksekusi.
+
+## Praktikum 6: Menggunakan Future dengan StatefulWidget
+1. install geolocator
+```dart
+flutter pub add geolocator
+```
